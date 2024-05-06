@@ -3,6 +3,7 @@
 ## Installation and Usage
 
 ### Clone the repository.
+
 ```console
 https://github.com/alasgarovs/django_rest.git
 cd django_rest
