@@ -4,8 +4,8 @@
 
 ### Clone the repository.
 ```console
-https://github.com/alasgarovs/django_blog.git
-cd django_blog
+https://github.com/alasgarovs/django_rest.git
+cd django_rest
 ```
 
 ### Set Development Enviroment
