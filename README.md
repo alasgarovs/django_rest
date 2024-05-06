@@ -14,7 +14,7 @@ cd django_rest
 ```console
 python3.12 -m venv .venv
 ```
-- Add the following statements to end of the  ".venv/bin/activate" file:
+- Add the following statements to end of the  ".venv/bin/activate" file and activate venv:
 ```console
 echo "export DJANGO_SETTINGS_MODULE=main.development" >> .venv/bin/activate
 ```
