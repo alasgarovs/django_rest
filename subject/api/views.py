@@ -1,18 +1,27 @@
-from rest_framework.generics import GenericAPIView
-from rest_framework.mixins import CreateModelMixin, ListModelMixin
-
 from subject.api.serializers import SubjectSerializer, CommentSerializer
-from subject.models import Subject
+from rest_framework import generics
 
+from subject.models import Subject, Comment
 
-class SubjectListCreateGenericAPIView(ListModelMixin, CreateModelMixin, GenericAPIView):
-
+class SubjectListCreateAPIView(generics.ListCreateAPIView):
     queryset = Subject.objects.all()
     serializer_class = SubjectSerializer
     
-    def get(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
+
+class SubjectDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Subject.objects.all()
+    serializer_class = SubjectSerializer
 
 
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
+class CommentCreateAPIView(generics.CreateAPIView):
+    queryset = Comment
+    serializer_class = CommentSerializer
+
+    def perform_create(self, serializer):
+        subject_pk = self.kwargs.get('subject_pk')
+        subject = generics.get_object_or_404(Subject, pk=subject_pk)
+        serializer.save(subject=subject)
+
+class CommentDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer

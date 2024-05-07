@@ -5,7 +5,7 @@ from subject.models import Subject, Comment
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
-        fields = '__all__'
+        exclude = ['subject']
 
 
 class SubjectSerializer(serializers.ModelSerializer):
