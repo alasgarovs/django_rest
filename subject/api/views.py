@@ -1,46 +1,18 @@
-from rest_framework import status
-from rest_framework.response import Response
-from rest_framework.generics import get_object_or_404
-from rest_framework.views import APIView
+from rest_framework.generics import GenericAPIView
+from rest_framework.mixins import CreateModelMixin, ListModelMixin
 
-from subject.api.serializers import SubjectSerializer
+from subject.api.serializers import SubjectSerializer, CommentSerializer
 from subject.models import Subject
 
 
-class SubjectListCreateAPIView(APIView):
-    def get(self, request):
-        subjects = Subject.objects.all()
-        serializer = SubjectSerializer(subjects, many=True)
-        return Response(serializer.data)
+class SubjectListCreateGenericAPIView(ListModelMixin, CreateModelMixin, GenericAPIView):
 
-    def post(self, request):
-        serializer = SubjectSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
+    queryset = Subject.objects.all()
+    serializer_class = SubjectSerializer
+    
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
 
 
-class SubjectDetailAPIView(APIView):
-
-    def get_object(self, pk):
-        subject_instance = get_object_or_404(Subject, pk=pk)
-        return subject_instance
-
-    def get(self, request, pk):
-        subject = self.get_object(pk)
-        serializer = SubjectSerializer(subject)
-        return Response(serializer.data)
-
-    def put(self, request, pk):
-        subject = self.get_object(pk)
-        serializer = SubjectSerializer(subject, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def delete(self, request, pk):
-        subject = self.get_object(pk)
-        subject.delete()
-        return Response(status.HTTP_204_NO_CONTENT)
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
