@@ -3,6 +3,7 @@ from rest_framework import permissions
 from rest_framework.exceptions import ValidationError
 
 from subject.api.permissions import IsAdminUserOrReadOnly, IsCommenterOrReadOnly
+from subject.api.pagination import LargePagination
 from subject.api.serializers import SubjectSerializer, CommentSerializer
 from subject.models import Subject, Comment
 
@@ -10,6 +11,7 @@ class SubjectListCreateAPIView(generics.ListCreateAPIView):
     queryset = Subject.objects.all()
     serializer_class = SubjectSerializer
     permission_classes = [IsAdminUserOrReadOnly]
+    pagination_class = LargePagination
     
 
 class SubjectDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
