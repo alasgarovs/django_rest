@@ -3,6 +3,7 @@ from subject.models import Subject, Comment
 
 
 class CommentSerializer(serializers.ModelSerializer):
+    commenter = serializers.StringRelatedField(read_only=True)
     class Meta:
         model = Comment
         exclude = ['subject']

@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.contrib.auth.models import User
 # Create your models here.
 
 
@@ -24,7 +25,7 @@ class Subject(models.Model):
 
 class Comment(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='comments', verbose_name='Subject')
-    commenter = models.CharField(verbose_name='Commenter', max_length=50)
+    commenter = models.ForeignKey(User, on_delete=models.Case, related_name='commenter', verbose_name='Commenter')
     comment = models.TextField(verbose_name='Comment', blank=True, null=True)
     created_date = models.DateTimeField(verbose_name='Created Date', auto_now_add=True)
     updated_date = models.DateTimeField(verbose_name='Updated Date', auto_now=True)
